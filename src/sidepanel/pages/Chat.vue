@@ -1,6 +1,7 @@
 <template>
 	<div>
 		<h1>Chat</h1>
+		<h4>Using: {{ store.getAiModel }}</h4>
 		<div
 			v-for="(conversation, key) in conversations"
 			:key="tabId + '-' + key">

@@ -1,25 +1,25 @@
 <template>
 	<div>
-		<p>Current AI Model: {{ store.getAiModel }}</p>
-		<input
+		{{ modelName }}
+		<AutoComplete
 			v-model="modelName"
-			placeholder="Enter new AI model" />
-		<ModelSelectorVue
-			:modelValue="modelName"
-			@update:modelValue="(v) => (modelName = v)" />
-		<button @click="updateModel">Update Model</button>
+			label="Current AI Modelz"
+			:options="modelOptions" />
+		<button @click="updateModel">Update Model 2</button>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, Ref, ref } from 'vue';
 import { useStore } from '../store';
 import { useRouter } from 'vue-router';
-import ModelSelectorVue from '@/components/ModelSelector.vue';
+import modelList from '@/data/models';
+import AutoComplete from '@/components/AutoComplete.vue';
 
 const store = useStore();
 const router = useRouter();
 const modelName = ref('claude-3-sonnet-20240229');
+const modelOptions = modelList.map((group) => group.options.map((option) => option.value)).flat();
 
 const updateModel = () => {
 	store.setAiModel(modelName.value);

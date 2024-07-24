@@ -12,6 +12,5 @@ import { onBeforeMount } from 'vue';
 onBeforeMount(() => {
 	const store = useStore();
 	store.initializeStore();
-	console.log('Store initialized');
 });
 </script>
