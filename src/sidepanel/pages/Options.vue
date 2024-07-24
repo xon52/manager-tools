@@ -1,29 +1,54 @@
 <template>
-	<div>
-		{{ modelName }}
-		<AutoComplete
-			v-model="modelName"
-			label="Current AI Modelz"
-			:options="modelOptions" />
-		<button @click="updateModel">Update Model 2</button>
-	</div>
+	<Card>
+		<template #title>Options</template>
+		<template #content>
+			{{ modelName }}
+			<AutoComplete
+				v-model="modelName"
+				label="Current AI Model"
+				:options="modelOptions" />
+		</template>
+		<template #footer>
+			<div class="flex gap-4 mt-1">
+				<Button
+					@click="save"
+					:disabled="!canSave"
+					severity="primary">
+					Save
+				</Button>
+				<Button
+					@click="cancel"
+					:disabled="!canSave"
+					severity="secondary">
+					Cancel
+				</Button>
+			</div>
+		</template>
+	</Card>
 </template>
 
 <script setup lang="ts">
-import { onMounted, Ref, ref } from 'vue';
+import { computed, onMounted, Ref, ref } from 'vue';
 import { useStore } from '../store';
 import { useRouter } from 'vue-router';
 import modelList from '@/data/models';
 import AutoComplete from '@/components/AutoComplete.vue';
+import Button from 'primevue/button';
+import Card from 'primevue/card';
 
 const store = useStore();
 const router = useRouter();
-const modelName = ref('claude-3-sonnet-20240229');
-const modelOptions = modelList.map((group) => group.options.map((option) => option.value)).flat();
+const modelName = ref(store.getAiModel);
+const modelOptions = modelList.map((m) => m.value);
 
-const updateModel = () => {
+const canSave = computed(() => modelName.value !== store.getAiModel);
+const canCancel = computed(() => modelName.value === store.getAiModel);
+
+const save = () => {
 	store.setAiModel(modelName.value);
-	modelName.value = '';
+	router.push('/chat');
+};
+const cancel = () => {
 	router.push('/chat');
 };
 </script>

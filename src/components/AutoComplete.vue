@@ -3,17 +3,18 @@
 		<AutoComplete
 			v-model="modelValue"
 			dropdown
-			:suggestions="suggestions"
+			:suggestions="suggestions.length > 0 ? suggestions : null"
 			inputId="ac"
 			@complete="search"
-			:delay="1000"
-			:invalid="required && modelValue === ''" />
+			:loading="false"
+			:invalid="required && modelValue === ''"
+			:emptySearchMessage="props.emptyMessage" />
 		<label for="ac">{{ props.label }}</label>
 	</FloatLabel>
 </template>
 
 <script setup lang="ts">
-import { onMounted, Ref, ref } from 'vue';
+import { ref } from 'vue';
 import AutoComplete from 'primevue/autocomplete';
 import FloatLabel from 'primevue/floatlabel';
 
@@ -22,6 +23,7 @@ const modelValue = defineModel<string>();
 const props = defineProps<{
 	options: string[];
 	label?: string;
+	emptyMessage?: string;
 	required?: boolean;
 }>();
 
@@ -30,13 +32,7 @@ const emit = defineEmits<{ (e: 'update', value: string): void }>();
 const suggestions = ref<string[]>([]);
 
 const search = (event: any) => {
-	const canSearch = event.query && event.query.length > 2;
-	console.log('canSearch', canSearch);
-	console.log('event.query', event.query);
-	suggestions.value = canSearch
-		? props.options.filter((option) => option.toLowerCase().includes(event.query.toLowerCase()))
-		: props.options;
-	console.log('suggestions', suggestions.value);
+	suggestions.value = props.options.filter((option) => option.toLowerCase().includes(event.query.toLowerCase()));
 	return;
 };
 </script>
