@@ -3,9 +3,17 @@ import { crx } from '@crxjs/vite-plugin';
 import vue from '@vitejs/plugin-vue';
 import path, { resolve } from 'path';
 import manifest from './manifest.json';
+import Components from 'unplugin-vue-components/vite';
+import { PrimeVueResolver } from '@primevue/auto-import-resolver';
 
 export default defineConfig({
-	plugins: [vue(), crx({ manifest })],
+	plugins: [
+		vue(),
+		crx({ manifest }),
+		Components({
+			resolvers: [PrimeVueResolver()],
+		}),
+	],
 	build: {
 		rollupOptions: {
 			input: {
@@ -21,6 +29,12 @@ export default defineConfig({
 	resolve: {
 		alias: {
 			'@': path.resolve(__dirname, './src'),
+		},
+	},
+	server: {
+		fs: {
+			// Allow serving files from one level up to the project root
+			allow: ['..'],
 		},
 	},
 });

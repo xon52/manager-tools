@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Chrome Summarizer",
+  "name": "Manager Tools",
   "version": "1.0",
-  "description": "Summarize web pages using Claude.ai",
+  "description": "Suite of management tools in your browser",
   "background": {
     "service_worker": "src/background.ts"
   },
@@ -16,7 +16,8 @@
     "tabs",
     "storage",
     "activeTab",
-    "sidePanel"
+    "sidePanel",
+    "management"
   ],
   "host_permissions": [
     "https://api.anthropic.com/*"

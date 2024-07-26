@@ -16,8 +16,11 @@ export const useStore = defineStore('ai', {
 		async initializeStore() {
 			await Promise.all([this.loadSyncData(), this.loadSessionData()]);
 		},
+		resetSyncData() {
+			chrome.storage.sync.clear();
+		},
 		loadSyncData() {
-			chrome.storage.sync.get(['ai_model', 'anthropic_key', 'openai_key'], (result) => {
+			chrome.storage.sync.get(['aiModel', 'apiKey'], (result) => {
 				this.aiModel = result.aiModel || '';
 				this.apiKey = result.apiKey || '';
 			});

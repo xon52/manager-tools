@@ -1,13 +1,20 @@
 <template>
 	<Card>
-		<template #title>Options</template>
+		<!-- Content -->
 		<template #content>
-			{{ modelName }}
-			<AutoComplete
-				v-model="modelName"
-				label="Current AI Model"
-				:options="modelOptions" />
+			<Fieldset legend="API details">
+				<MyAutoComplete
+					v-model="aiModel"
+					label="AI Model"
+					required
+					:options="modelOptions" />
+				<MyInput
+					v-model="apiKey"
+					label="API Key"
+					required />
+			</Fieldset>
 		</template>
+		<!-- Footer -->
 		<template #footer>
 			<div class="flex gap-4 mt-1">
 				<Button
@@ -28,24 +35,29 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, Ref, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useStore } from '../store';
 import { useRouter } from 'vue-router';
 import modelList from '@/data/models';
-import AutoComplete from '@/components/AutoComplete.vue';
+import MyAutoComplete from '@/components/MyAutoComplete.vue';
+import MyInput from '@/components/MyInput.vue';
 import Button from 'primevue/button';
+import Fieldset from 'primevue/fieldset';
 import Card from 'primevue/card';
 
 const store = useStore();
 const router = useRouter();
-const modelName = ref(store.getAiModel);
+
 const modelOptions = modelList.map((m) => m.value);
 
-const canSave = computed(() => modelName.value !== store.getAiModel);
-const canCancel = computed(() => modelName.value === store.getAiModel);
+const aiModel = ref(store.getAiModel);
+const apiKey = ref(store.getApiKey);
+
+const canSave = computed(() => aiModel.value !== store.getAiModel);
+const canCancel = computed(() => !!aiModel.value);
 
 const save = () => {
-	store.setAiModel(modelName.value);
+	store.setAiModel(aiModel.value);
 	router.push('/chat');
 };
 const cancel = () => {

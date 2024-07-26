@@ -3,7 +3,7 @@
 		<AutoComplete
 			v-model="modelValue"
 			dropdown
-			:suggestions="suggestions.length > 0 ? suggestions : null"
+			:suggestions="suggestions.length > 0 ? suggestions : undefined"
 			inputId="ac"
 			@complete="search"
 			:loading="false"
@@ -15,8 +15,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import AutoComplete from 'primevue/autocomplete';
-import FloatLabel from 'primevue/floatlabel';
 
 const modelValue = defineModel<string>();
 
@@ -26,8 +24,6 @@ const props = defineProps<{
 	emptyMessage?: string;
 	required?: boolean;
 }>();
-
-const emit = defineEmits<{ (e: 'update', value: string): void }>();
 
 const suggestions = ref<string[]>([]);
 

@@ -13,7 +13,7 @@ const store = useStore();
 const router = useRouter();
 
 onMounted(() => {
-	if (store.getAiModel === '') router.push('/options');
+	if (store.getAiModel === '') router.push('/settings');
 	else router.push('/chat');
 });
 </script>
