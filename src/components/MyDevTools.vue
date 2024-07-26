@@ -8,12 +8,32 @@
 				@click="refresh"
 				text
 				icon="pi pi-replay" />
+			<Button
+				@click="sleepTabs"
+				text
+				icon="pi pi-pause-circle" />
 		</template>
 	</Toolbar>
 </template>
 
 <script setup lang="ts">
 const refresh = () => {
-	chrome.runtime.reload();
+	try {
+		chrome.runtime.reload();
+	} catch (error) {
+		console.error('Error refreshing extension:', error);
+	}
+};
+const sleepTabs = async () => {
+	try {
+		const tabs = await chrome.tabs.query({ active: false });
+		tabs.forEach((tab) => {
+			if (tab.id) {
+				chrome.tabs.discard(tab.id);
+			}
+		});
+	} catch (error) {
+		console.error('Error putting tabs to sleep:', error);
+	}
 };
 </script>
