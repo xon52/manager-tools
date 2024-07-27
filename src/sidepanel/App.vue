@@ -1,7 +1,7 @@
 <template>
-	<div class="wrapper">
+	<div class="flex flex-col h-screen overflow-hidden">
 		<MyToolbar />
-		<ScrollPanel style="flex: 1">
+		<ScrollPanel class="flex-1">
 			<RouterView />
 		</ScrollPanel>
 		<MyDevTools v-if="devTools" />
@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
-import { useStore } from './store';
+import { useStore } from '@/store';
 import { onBeforeMount } from 'vue';
 import MyToolbar from '@/components/MyToolbar.vue';
 import MyFooter from '@/components/MyFooter.vue';
@@ -19,17 +19,8 @@ import MyDevTools from '@/components/MyDevTools.vue';
 
 const devTools = import.meta.env.MODE === 'development';
 
-onBeforeMount(() => {
+onBeforeMount(async () => {
 	const store = useStore();
-	store.initializeStore();
+	await store.initializeStore();
 });
 </script>
-
-<style scoped>
-.wrapper {
-	display: flex;
-	flex-direction: column;
-	height: 100vh;
-	overflow: hidden;
-}
-</style>

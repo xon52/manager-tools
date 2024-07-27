@@ -1,5 +1,5 @@
 <template>
-	<Toolbar style="border-radius: 0; border: 0; padding: 0 10px">
+	<Toolbar style="border-radius: 0; border-bottom: 0; border-left: 0; border-right: 0; padding: 0 10px">
 		<template #start>
 			<span class="text-md">&copy;{{ year }}</span>
 		</template>

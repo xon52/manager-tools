@@ -30,22 +30,16 @@ export const useStore = defineStore('ai', {
 				this.tabs = result.tabs || [];
 			});
 		},
-		async saveSyncData() {
-			await chrome.storage.sync.set({
-				aiModel: this.aiModel,
-				apiKey: this.apiKey,
-			});
-		},
 		async saveSessionData() {
 			await chrome.storage.session.set({ tabs: this.tabs });
 		},
-		setAiModel(model: string) {
-			this.aiModel = model;
-			this.saveSyncData();
+		async setAiModel(payload: string) {
+			this.aiModel = payload;
+			await chrome.storage.sync.set({ aiModel: payload });
 		},
-		setApiKey(key: string) {
-			this.apiKey = key;
-			this.saveSyncData();
+		async setApiKey(payload: string) {
+			this.apiKey = payload;
+			await chrome.storage.sync.set({ apiKey: payload });
 		},
 		addTab(tabId: number) {
 			this.tabs.push({ tabId, conversations: [] });
@@ -62,8 +56,6 @@ export const useStore = defineStore('ai', {
 	},
 
 	getters: {
-		getAiModel: (state) => state.aiModel,
-		getApiKey: (state) => state.apiKey,
 		getConversations: (state) => (tabId: number) => state.tabs.find((tab) => tab.tabId === tabId)?.conversations || [],
 	},
 });

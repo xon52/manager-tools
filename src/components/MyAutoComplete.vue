@@ -3,18 +3,21 @@
 		<AutoComplete
 			v-model="modelValue"
 			dropdown
+			class="w-full"
 			:suggestions="suggestions.length > 0 ? suggestions : undefined"
-			inputId="ac"
+			:id="`${uid}-input`"
 			@complete="search"
 			:loading="false"
 			:invalid="required && modelValue === ''"
 			:emptySearchMessage="props.emptyMessage" />
-		<label for="ac">{{ props.label }}</label>
+		<label :for="`${uid}-input`">{{ props.label }}</label>
 	</FloatLabel>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { getCurrentInstance, ref } from 'vue';
+
+const { uid } = getCurrentInstance()!;
 
 const modelValue = defineModel<string>();
 

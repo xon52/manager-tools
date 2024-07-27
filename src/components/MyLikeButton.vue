@@ -1,10 +1,11 @@
 <template>
 	<Button
 		icon="pi pi-heart-fill"
-		severity="danger"
+		title="Like"
+		:severity="isActive ? 'danger' : 'secondary'"
 		text
 		aria-label="Like"
-		@click="isVisible = true" />
+		@click="like" />
 	<Dialog
 		v-model:visible="isVisible"
 		modal
@@ -13,7 +14,7 @@
 		dismissableMask
 		:closable="false"
 		position="topright">
-		<div class="flex flex-col gap-4 w-[25rem]">
+		<div class="flex flex-col">
 			<p class="text-surface-500 dark:text-surface-400 block mb-8">Please share this to someone or somewhere 🙏</p>
 			<InputGroup>
 				<InputText
@@ -37,6 +38,12 @@ import { ref } from 'vue';
 const link = 'mylink';
 const isVisible = ref(false);
 const isCopied = ref(false);
+const isActive = ref(false);
+
+const like = () => {
+	isVisible.value = true;
+	isActive.value = true;
+};
 
 const copy = () => {
 	navigator.clipboard.writeText(link);

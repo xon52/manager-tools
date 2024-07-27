@@ -5,10 +5,10 @@ chrome.action.onClicked.addListener((tab) => {
 	(async () => {
 		// This will open a tab-specific side panel only on the current tab.
 		await chrome.sidePanel.open({ tabId: tab.id || 0 });
-		await chrome.sidePanel.setOptions({
-			tabId: tab.id,
-			enabled: true,
-		});
+		// await chrome.sidePanel.setOptions({
+		// 	tabId: tab.id,
+		// 	enabled: true,
+		// });
 	})();
 });
 

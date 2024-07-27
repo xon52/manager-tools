@@ -1,17 +1,13 @@
 <template>
-	<!-- <FloatLabel>
-		<InputText
-			v-model="modelValue"
-			id="inputtext"
-			:invalid="required && modelValue === ''" />
-		<label for="inputtext">{{ props.label }}</label>
-	</FloatLabel> -->
-	<div class="flex flex-col gap-2">
-		<label :for="`${uid}-input`">{{ props.label }}: </label>
-		<InputText
-			:id="`${uid}-input`"
-			v-model="modelValue"
-			:aria-describedby="`${uid}-help`" />
+	<div>
+		<FloatLabel>
+			<InputText
+				v-model="modelValue"
+				:id="`${uid}-input`"
+				:invalid="required && modelValue === ''"
+				class="w-full" />
+			<label :for="`${uid}-input`">{{ props.label }}</label>
+		</FloatLabel>
 		<small
 			:id="`${uid}-help`"
 			v-if="help">
