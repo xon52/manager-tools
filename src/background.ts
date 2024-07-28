@@ -1,21 +1,43 @@
-chrome.runtime.onInstalled.addListener((details) => {});
+// const openTabs = new Map();
 
-chrome.action.onClicked.addListener((tab) => {
-	// The callback for runtime.onMessage must return falsy if we're not sending a response
-	(async () => {
-		// This will open a tab-specific side panel only on the current tab.
-		await chrome.sidePanel.open({ tabId: tab.id || 0 });
-		// await chrome.sidePanel.setOptions({
-		// 	tabId: tab.id,
-		// 	enabled: true,
-		// });
-	})();
+chrome.runtime.onInstalled.addListener((details) => {
+	console.log('onInstalled', details);
 });
 
-// chrome.commands.onCommand.addListener((shortcut) => {
-// 	console.log('lets reload');
-// 	console.log(shortcut);
-// 	if (shortcut.includes('+M')) {
-// 		chrome.runtime.reload();
+chrome.action.onClicked.addListener((tab) => {
+	if (tab.id === undefined) return;
+	chrome.sidePanel.open({ tabId: tab.id });
+});
+
+// chrome.action.onClicked.addListener((tab) => {
+// 	if (tab.id === undefined) return;
+// 	if (openTabs.has(tab.id)) {
+// 		console.log('Tab already exists', tab);
+// 		openTabs.delete(tab.id);
+// 		chrome.sidePanel.setOptions({
+// 			path: './sidepanel/index.html',
+// 			tabId: tab.id,
+// 			enabled: false,
+// 		});
+// 		return;
+// 	} else {
+// 		console.log('tab open', tab);
+// 		chrome.sidePanel.open({ tabId: tab.id });
+// 		openTabs.set(tab.id, true);
+// 		chrome.sidePanel.setOptions({
+// 			path: './sidepanel/index.html',
+// 			tabId: tab.id,
+// 			enabled: true,
+// 		});
 // 	}
 // });
+
+// https://developer.chrome.com/docs/extensions/develop/concepts/messaging#connect
+
+chrome.runtime.onConnect.addListener(function (port) {
+	if (port.name === 'mySidepanel') {
+		port.onDisconnect.addListener(async () => {
+			console.log('Sidepanel closed.');
+		});
+	}
+});

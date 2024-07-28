@@ -43,14 +43,14 @@
 </template>
 
 <script setup lang="ts">
-import { useStore } from '@/store';
+import { useSettingsStore } from '@/stores';
 import { useRouter } from 'vue-router';
 import modelList from '@/data/models';
 import MyAutoComplete from '@/components/MyAutoComplete.vue';
 import MyInput from '@/components/MyInput.vue';
 import { storeToRefs } from 'pinia';
 
-const store = useStore();
+const store = useSettingsStore();
 const router = useRouter();
 
 const modelOptions = modelList.map((m) => m.value);

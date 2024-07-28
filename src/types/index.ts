@@ -1,1 +1,2 @@
-export { Conversation } from './Conversation';
+export * from './Chat';
+export * from './Tab';

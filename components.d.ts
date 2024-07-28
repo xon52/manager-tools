@@ -23,6 +23,7 @@ declare module 'vue' {
     InputText: typeof import('primevue/inputtext')['default']
     Menubar: typeof import('primevue/menubar')['default']
     MyAutoComplete: typeof import('./src/components/MyAutoComplete.vue')['default']
+    MyCostStats: typeof import('./src/components/MyCostStats.vue')['default']
     MyDevToolbar: typeof import('./src/components/MyDevToolbar.vue')['default']
     MyDevTools: typeof import('./src/components/MyDevTools.vue')['default']
     MyFooter: typeof import('./src/components/MyFooter.vue')['default']
